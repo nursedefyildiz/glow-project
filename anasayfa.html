@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow - Anasayfa ✨</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="welcome-card-container">
+        <div class="glass-container welcome-card">
+            <div class="profile-frame">
+                <img src="img/sedefpp.png" alt="Nursedef Yıldız" class="profile-img">
+            </div>
+
+            <h1 id="user-greeting">Hoş Geldin! ✨</h1>
+            <h2 class="my-name">Nursedef Yıldız</h2>
+
+            <p class="intro-text">
+                Merhaba, ben Sedef! Bu internet sayfasını kendimi web tasarım alanında geliştirmek 
+                ve gününüze biraz neşe ve ışıltı katmak için tasarladım. Henüz tamamlanmayan 
+                bazı bölümleri var, zamanla hepsini tamamlayacağım. ✨
+            </p>
+
+            <div class="menu-trigger-wrapper">
+    
+    <button onclick="goToMenu()" class="pixel-main-btn">
+        <span>MENÜYE GİT ✨</span>
+    </button>
+</div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // İsim hafızadan alınıp başlığa ekleniyor
+        window.onload = function() {
+            const name = localStorage.getItem('userName') || '';
+            if(name) {
+                document.getElementById('user-greeting').innerText = `Hoş Geldin, ${name}! ✨`;
+            }
+        };
+
+        function goToMenu() {
+            window.location.href = 'menu.html'; // Yeni oluşturacağımız menü dosyasına gidecek
+        }
+    </script>
+</body>
+</html>
+

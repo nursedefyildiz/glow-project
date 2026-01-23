@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow - Şans Kurabiyesi 🥠</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="cookie-page">
+
+    <div class="cookie-game-container">
+        
+        <div class="glowie-header">
+            <div class="bubble-container">
+                <p id="sedef-text">Hadi, bir kurabiye seç ve içindeki gizemli notu oku! ✨</p>
+            </div>
+            <img src="img/glowie.png" alt="Sedef" class="floating-avatar">
+        </div>
+
+        <div id="cookie-grid" class="cookie-grid">
+            <div class="cookie-box" onclick="getFortune(this)">🥠</div>
+            <div class="cookie-box" onclick="getFortune(this)">🥠</div>
+            <div class="cookie-box" onclick="getFortune(this)">🥠</div>
+        </div>
+
+        <div id="fortune-display" class="fortune-card hidden">
+            <div class="card-inner">
+                <span>GÜNÜN NOTU</span>
+                <p id="fortune-result"></p>
+                <button onclick="location.reload()" class="refresh-btn">YENİDEN DENE 🔄</button>
+            </div>
+        </div>
+
+        <div class="nav-footer">
+            <a href="menu.html" class="back-link">⬅ MENÜYE DÖN</a>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            "Zorluklar, karakterini parlatman için birer fırsattır. ✨",
+            "Beklediğin o güzel haber yolda, hazır ol! 💌",
+            "Zihnini serbest bırak, cevaplar sana gelecek. 🧠",
+            "Küçük bir adım, büyük bir kapı açacak. 🚪",
+            "Bugün şansın tıpkı bir yıldız gibi parlıyor! 🌟",
+            "Kendine vakit ayır, buna değer. 🌸",
+            "Bugün ektiğin tohumlar, yarın sana orman olarak dönecek. 🌱",
+            "Kendi hikayenin kahramanı sensin, bugün yeni bir sayfa aç! 📖",
+            "Başarı bir varış noktası değil, bir yolculuktur. Tadını çıkar! 🚀",
+            "Ruhunu dinlendir, en güzel fikirler sessizlikte doğar. 🧘‍♀️",
+            "Kendine nazik davran, sen bu dünyadaki en değerli hazinesin. 💎",
+            "Bugün sadece 'var olman' bile kutlanmaya değer bir başarı. 🌸",
+            "İçindeki ışığın sönmesine izin verme, sen parladıkça dünya güzelleşir. ✨",
+            "Hayallerin, sana ne kadar yakın olduklarını fısıldıyor. 🌬️",
+            "Beklediğin mucize belki de şu an tam arkandadır. 🎁",
+            "Yolun belirsiz olması, yanlış yolda olduğun anlamına gelmez. 🛣️"
+        ];
+
+        function getFortune(element) {
+            const grid = document.getElementById('cookie-grid');
+            const display = document.getElementById('fortune-display');
+            const resultText = document.getElementById('fortune-result');
+            const sedefText = document.getElementById('sedef-text');
+
+            // 1. Kurabiyeleri uçurarak gizle
+            grid.style.opacity = "0";
+            grid.style.transform = "scale(0.8)";
+            
+            setTimeout(() => {
+                grid.classList.add('hidden');
+                // 2. Mesajı seç ve göster
+                const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+                resultText.innerText = randomMsg;
+                sedefText.innerText = "İşte şansın burada! 👇";
+                
+                display.classList.remove('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
