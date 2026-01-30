@@ -3,23 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glow - Yakında ✨</title>
+    <title>Glow - Galeri 🖼️</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="content-page-body">
 
-    <div class="content-container">
+    <div class="content-container" style="max-width: 1000px;">
         
         <header class="page-header">
-            <h1 class="pixel-text">YAKINDA... 🛠️</h1>
+            <h1 class="pixel-text">ANILARIM 🖼️</h1>
+            <p style="text-align:center; color:#888; font-size:0.9rem; margin-bottom:20px;">
+                Sizinle galerimden bi kaç fotoğraf paylaşmak istedim. 
+                Fotoğraflara tıkla, hikayelerini oku! ✨
+            </p>
         </header>
 
-        <div class="pixel-card" style="text-align: center;">
-            <div class="mini-glowie-box">
-                <img src="img/glowie.png" alt="Sedef" class="mini-avatar" style="margin-bottom: 20px;">
-                <div class="speech-bubble" style="max-width: 100%;">
-                    <p>Burası şu an hazırlık aşamasında! Sedef pikselleri tek tek yerleştiriyor. Çok yakında burada harika şeyler olacak. ✨</p>
-                </div>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="sedefTalks(this, '3. yarıyıldan bi pazartesi', 'Eylül 2025')">
+                <div class="pixel-frame"><img src="img/galeri1.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Best kuzen ve uyumlu kombinlerimizz', 'Sanırım 2012')">
+                <div class="pixel-frame"><img src="img/galeri2.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Nida ve ben', 'Aralık 2025')">
+                <div class="pixel-frame"><img src="img/galeri3.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Rabiş ve ben', 'Ocak 2025')">
+                <div class="pixel-frame"><img src="img/galeri4.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'En yakın arkadasım Melek', 'Eylül 2025')">
+                <div class="pixel-frame"><img src="img/galeri5.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Best kuzen nesli', 'Aralık 2025')">
+                <div class="pixel-frame"><img src="img/galeri6.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Fav EEMci Elif', 'Ekim 2025')">
+                <div class="pixel-frame"><img src="img/galeri7.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Karasu', 'Kaım 2025')">
+                <div class="pixel-frame"><img src="img/galeri8.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Diferansiyel bütünden kaldığım gün.', 'Ocak 2025')">
+                <div class="pixel-frame"><img src="img/galeri9.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Metehan abimin nişanı', 'Mayıs 2025')">
+                <div class="pixel-frame"><img src="img/galeri10.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Abim ve ben', 'sanırım 2008')">
+                <div class="pixel-frame"><img src="img/galeri11.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Kardeşim Şeyma', 'Ağustos 2025')">
+                <div class="pixel-frame"><img src="img/galeri12.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Şeyma ve ben , Kocaali', 'Ağustos')">
+                <div class="pixel-frame"><img src="img/galeri13.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Galatasaray şampiyonluk kutlamaları', 'Mayıs 2025')">
+                <div class="pixel-frame"><img src="img/galeri14.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Buğra ve benim doğum günüm', 'Şubat 2025')">
+                <div class="pixel-frame"><img src="img/galeri15.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'irem ve benn', 'Ekim 2024')">
+                <div class="pixel-frame"><img src="img/galeri16.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Her yerde profil fotoğrafım :)', 'Eylül 2025')">
+                <div class="pixel-frame"><img src="img/galeri17.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Düzce', 'Ekim 2024')">
+                <div class="pixel-frame"><img src="img/galeri18.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Şeyma', '2017')">
+                <div class="pixel-frame"><img src="img/galeri19.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Biyoteknova standı', 'Ekim 2025')">
+                <div class="pixel-frame"><img src="img/galeri20.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Lego kedi', '2025')">
+                <div class="pixel-frame"><img src="img/galeri21.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Lise okul formam', '2024')">
+                <div class="pixel-frame"><img src="img/galeri22.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'İrem ve ben, Karasu', 'Ağustos 2025')">
+                <div class="pixel-frame"><img src="img/galeri23.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Ekmeğimi de balkona çıkan kedi yemisti', '5 yasındayım sanırım')">
+                <div class="pixel-frame"><img src="img/galeri24.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Melenağzı', 'Ocak 2026')">
+                <div class="pixel-frame"><img src="img/galeri25.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Duraktaki kedi', 'Ocak 2026')">
+                <div class="pixel-frame"><img src="img/galeri26.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Makarna yemeye çalışan Şeyma', '2020')">
+                <div class="pixel-frame"><img src="img/galeri27.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Abant', 'Şubat 2025')">
+                <div class="pixel-frame"><img src="img/galeri28.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Sabiha Ulusoy Kütüphanesi', '2025')">
+                <div class="pixel-frame"><img src="img/galeri29.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Nesliyle', 'Aralık 2025')">
+                <div class="pixel-frame"><img src="img/galeri30.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Arduino eğitiminden', '2025')">
+                <div class="pixel-frame"><img src="img/galeri31.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Babamın atolyesindeyim', '')">
+                <div class="pixel-frame"><img src="img/galeri32.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Hira ile', 'Ocak 2026')">
+                <div class="pixel-frame"><img src="img/galeri33.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Şeyma ve ben', 'Eylül 2025')">
+                <div class="pixel-frame"><img src="img/galeri34.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'English home da makarna yapıyorum ', 'Aralık 2025')">
+                <div class="pixel-frame"><img src="img/galeri35.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Kardeşim ve arkadaşı', 'Kasım 2025')">
+                <div class="pixel-frame"><img src="img/galeri36.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Küçük sedef', '')">
+                <div class="pixel-frame"><img src="img/galeri37.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Beçi', 'Mart 2025')">
+                <div class="pixel-frame"><img src="img/galeri38.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Şeyma', 'Ağustos 2025')">
+                <div class="pixel-frame"><img src="img/galeri39.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Hello kitty kardan adamımız', '2025')">
+                <div class="pixel-frame"><img src="img/galeri40.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Elektrik labı', 'ekim 2025')">
+                <div class="pixel-frame"><img src="img/galeri41.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Karasu', 'Ağustos 2025')">
+                <div class="pixel-frame"><img src="img/galeri42.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, '', 'Aralık 2025')">
+                <div class="pixel-frame"><img src="img/galeri43.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'SAKARYASPOR', 'Ekim 2024')">
+                <div class="pixel-frame"><img src="img/galeri44.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Karasu', 'Ocak 2025')">
+                <div class="pixel-frame"><img src="img/galeri45.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, '', 'Şubat 2025')">
+                <div class="pixel-frame"><img src="img/galeri46.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'Şeyma kek yapıyor', 'sanırım 2021')">
+                <div class="pixel-frame"><img src="img/galeri47.jpeg"></div>
+            </div>
+            <div class="gallery-item" onclick="sedefTalks(this, 'İlk editlenmiş fotoğrafım :)', '')">
+                <div class="pixel-frame"><img src="img/galeri48.jpeg"></div>
             </div>
         </div>
 
@@ -28,9 +170,33 @@
                 ⬅ MENÜYE DÖN
             </button>
         </div>
-
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function sedefTalks(element, comment, date) {
+            // Varsa eski balonu temizle
+            const existing = document.querySelector('.inline-bubble');
+            if (existing) existing.remove();
+
+            // Yeni pikselli kutu oluştur
+            const bubble = document.createElement('div');
+            bubble.className = 'inline-bubble';
+            bubble.innerHTML = `<small>${date}</small><p>${comment}</p>`;
+            
+            // Tıklanan elemanın içine ekle
+            element.appendChild(bubble);
+
+            // Tıklayınca sayfayı yukarı fırlatmasını engellemek için return false
+            return false; 
+        }
+
+        // Boş bir yere tıklayınca balonu kapatmak için
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.gallery-item')) {
+                const existing = document.querySelector('.inline-bubble');
+                if (existing) existing.remove();
+            }
+        });
+    </script>
 </body>
 </html>
