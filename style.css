@@ -434,3 +434,100 @@ img {
 }
 
 .hidden { display: none !important; }
+
+/* GALERİ GRID DÜZENİ */
+.gallery-grid {
+    display: grid;
+    /* Mobilde varsayılan 2 sütun */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Tablette 4 sütun (Ekran 600px'den büyükse) */
+@media (min-width: 600px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Bilgisayarda 6 sütun (Ekran 1000px'den büyükse) */
+@media (min-width: 1000px) {
+    .gallery-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.gallery-item {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.pixel-frame {
+    background: white;
+    border: 3px solid #333;
+    padding: 5px;
+    box-shadow: 4px 4px 0px #ffb7c5;
+    aspect-ratio: 1/1; /* Kare kutular */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pixel-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fotoğrafların kutuyu tam doldurmasını sağlar */
+}
+
+/* Sedef'in konuşma balonu için küçük bir düzenleme */
+#sedef-comment {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* --- GALERİ İÇİ MESAJ BALONU --- */
+.gallery-item {
+    position: relative; /* Balonun konumlanması için şart */
+}
+
+.inline-bubble {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background: white;
+    border: 3px solid #333;
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 4px 4px 0px #ffb7c5;
+    animation: popUp 0.2s ease-out;
+    pointer-events: none; /* Balona tıklayınca altındaki resim etkilenmesin */
+}
+
+.inline-bubble small {
+    color: #ff8fa3;
+    font-weight: bold;
+    font-size: 0.7rem;
+    display: block;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.inline-bubble p {
+    font-size: 0.8rem;
+    color: #333;
+    line-height: 1.2;
+    margin: 0;
+}
+
+@keyframes popUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
