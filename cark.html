@@ -3,24 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glow - Yakında ✨</title>
+    <title>Glow - Görev Çarkı 🎡</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="content-page-body">
 
-    <div class="content-container">
+    <div class="wheel-main-container">
         
         <header class="page-header">
-            <h1 class="pixel-text">YAKINDA... 🛠️</h1>
+            <h1 class="pixel-text">GÜNÜN GÖREVİ ✨</h1>
+            <div id="guide-box" class="mini-glowie-box">
+                <div class="speech-bubble">
+                    <p id="sedef-say">Çarkı çevir, bakalım bugün senin için hangi tatlı görevi seçtim? 🎡</p>
+                </div>
+                <img src="img/glowie.png" alt="Sedef" class="mini-avatar">
+            </div>
         </header>
 
-        <div class="pixel-card" style="text-align: center;">
-            <div class="mini-glowie-box">
-                <img src="img/glowie.png" alt="Sedef" class="mini-avatar" style="margin-bottom: 20px;">
-                <div class="speech-bubble" style="max-width: 100%;">
-                    <p>Burası şu an hazırlık aşamasında! Sedef pikselleri tek tek yerleştiriyor. Çok yakında burada harika şeyler olacak. ✨</p>
-                </div>
-            </div>
+        <div class="wheel-area">
+            <div class="wheel-pointer">▼</div>
+            
+            <div class="wheel-static-shadow"></div>
+            
+            <div id="wheel" class="modern-wheel"></div>
+            
+            <div class="wheel-center-dot"></div>
+        </div>
+
+        <div class="spin-container">
+            <button id="spin-btn" onclick="spinWheel()">ÇARKI ÇEVİR! ✨</button>
         </div>
 
         <div class="bottom-nav">
@@ -31,6 +42,76 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const tasks = [
+            "Bir sokak hayvanına su ver ve fotoğrafını çekip bana gönder! 🐾",
+            "Bugün üzerinde çalıştığın projenin bir fotoğrafını bana gönder! 💻",
+            "Kendine en sevdiğin içeceği hazırla ve bana fotoğrafını gönder! ☕",
+            "Bugün gökyüzü nasıl görünüyor? Bir fotoğraf çekip bana gönder! ☁️",
+            "Şu an okuduğun kitabın bir sayfasını veya kapağını bana gönder! 📚",
+            "Bugün seni mutlu eden 3 şeyi bir yere not et! ✍️",
+            "Masandaki en sevdiğin eşyanın fotoğrafını bana gönder! 🧸",
+            "Bugün duyduğun en güzel cümleyi bana yaz! 📝",
+            "Şu an dinlediğin şarkının ismini bana yaz! 🎶",
+            "Gelecekteki kendine bir cümlelik not yaz ve bana gönder! 📩",
+            "Şu an gökyüzü ne renk? Hemen bir fotoğrafını çekip bana gönder! ☁️✨",
+            "Pencerenden dışarı baktığında gördüğün o manzarayı çok merak ediyorum, bana gönderir misin? 🖼️",
+            "Bugün giydiğin pikselli dünyana uyum sağlayan o kombinini/ayakkabılarını çekip bana gönder! 👟",
+            "Çalışırken sana eşlik eden o kahve kupasını veya atıştırmalığını bana gönder! ☕",
+            "Masanda seni en çok gülümseten o küçük objeyi çekip bana gönder! 🧸",
+            "Bugün yolda yürürken gördüğün ve 'ne kadar tatlı' dediğin bir şeyi çekip bana gönder! 🌸",
+            "Şu anki çalışma ortamını (bilgisayarın, notların falan) çekip bana gönder! 💻",
+            "Bugün şansına çıkan o gökkuşağını veya bulutun şeklini yakala ve bana gönder! 🌈",
+            "Eğer bir evcil hayvanın varsa, onun en komik halini çekip bana gönder! 🐾",
+            "Bugün senin için 'günün karesi' hangisi? Onu seç ve bana gönder! 📸",
+            "Gördüğün bir çöpü kutusuna at, doğa sana teşekkür eder! ♻️",
+            "Bugün birine sebepsiz yere gülümse ve günün nasıl geçtiğini bana yaz! 😊",
+            "Bugün en az 10 sayfa kitap oku, zihnin parlasın! 📖",
+            "Gözlerini kapat ve 1 dakika boyunca sadece nefesine odaklan. 🧘",
+            "Tanımadığın birine küçük bir iltifat et! ✨",
+            "Bugün kendine 'İyi ki varım' de! 💖",
+            "Eski bir arkadaşına 'nasılsın' mesajı gönder! 📱",
+            "Bugün ekran süreni bir saat azaltmaya çalış! 📵",
+            "Bugün daha önce hiç duymadığın bir kelime/terim öğren! 💡",
+            "Masandaki pikselli karmaşayı (eğer varsa) biraz düzenle! 🧹",
+            "Yarım bıraktığın bir işi bugün tamamlamak için 15 dakika ayır! ⏳",
+            "Bugün birine bir şey öğret, bilgin paylaştıkça çoğalsın! 🧠",
+            "Kısa bir yürüyüşe çık ve ayaklarının yere bastığını hisset! 👟",
+            "Bugün en az 1.5 litre su içtiğinden emin ol! 💧"
+        ];
+
+        let wheel = document.getElementById('wheel');
+        let spinning = false;
+
+        function spinWheel() {
+            if (spinning) return;
+            spinning = true;
+            
+            // Çarkı rastgele ve çokça döndür (animasyon)
+            let randomDeg = Math.floor(4000 + Math.random() * 4000);
+            wheel.style.transform = `rotate(${randomDeg}deg)`;
+            
+            document.getElementById('sedef-say').innerText = "Vuvvv! Dönüyor... ✨";
+
+            setTimeout(() => {
+                spinning = false;
+                
+                // Görevi listeden RASTGELE seç
+                const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+                
+                let taskHtml = `<strong>Görevin:</strong> <br>${randomTask}`;
+
+                // Kelime kontrolü: "gönder" VEYA "yaz" geçiyorsa link ekle
+                const checkKeywords = ["gönder", "yaz", "gönderir"];
+                const shouldShowLink = checkKeywords.some(k => randomTask.toLowerCase().includes(k));
+
+                if (shouldShowLink) {
+                    taskHtml += `<br><a href="gonder.html" class="task-link">[Hemen Gönder]</a>`;
+                }
+                
+                document.getElementById('sedef-say').innerHTML = taskHtml;
+            }, 5000); 
+        }
+    </script>
 </body>
 </html>
