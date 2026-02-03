@@ -3,34 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glow - Yakında ✨</title>
+    <title>Glow - Posta Ofisi 💌</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="content-page-body">
 
-    <div class="content-container">
-        
-        <header class="page-header">
-            <h1 class="pixel-text">YAKINDA... 🛠️</h1>
-        </header>
-
-        <div class="pixel-card" style="text-align: center;">
-            <div class="mini-glowie-box">
-                <img src="img/glowie.png" alt="Sedef" class="mini-avatar" style="margin-bottom: 20px;">
-                <div class="speech-bubble" style="max-width: 100%;">
-                    <p>Burası şu an hazırlık aşamasında! Sedef pikselleri tek tek yerleştiriyor. Çok yakında burada harika şeyler olacak. ✨</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-nav">
-            <button onclick="window.location.href='menu.html'" class="pixel-main-btn">
-                ⬅ MENÜYE DÖN
-            </button>
-        </div>
-
+    <div class="pixel-bg-elements">
+        <div class="float-item" style="top:15%; left:10%;">✉️</div>
+        <div class="float-item" style="top:25%; right:15%;">✨</div>
+        <div class="float-item" style="top:75%; left:12%;">🌸</div>
+        <div class="float-item" style="top:85%; right:8%;">💌</div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="post-office-wrapper">
+        <div class="sedef-status-area">
+            <div class="speech-bubble">
+                <p id="sedef-say">Mektubun için bir zarf seçerek başlayalım! ✨</p>
+            </div>
+            <img src="img/glowie.png" alt="Sedef" id="sedef-avatar" class="pixel-avatar">
+        </div>
+
+        <div class="main-card">
+            <div id="step-1" class="step-box">
+                <h2 class="pixel-text">ZARF SEÇ 💌</h2>
+                <div class="envelope-options">
+                    <div class="env-item" onclick="startForm('Pembe')">💖<span>Pembe</span></div>
+                    <div class="env-item" onclick="startForm('Mavi')">💙<span>Mavi</span></div>
+                    <div class="env-item" onclick="startForm('Klasik')">✉️<span>Klasik</span></div>
+                </div>
+            </div>
+
+            <div id="step-2" class="step-box hidden">
+                <form id="glow-form">
+                    <div class="input-field">
+                        <label>BİR TAKMA AD GİR</label>
+                        <input type="text" name="alias" id="alias-input" placeholder="Nasıl görünmek istersin?" required>
+                    </div>
+
+                    <input type="hidden" id="hidden-real-name" name="real_identity">
+
+                    <div class="input-field">
+                        <label>MESAJIN</label>
+                        <textarea name="message" id="message-input" placeholder="Notunu buraya yaz..." required></textarea>
+                    </div>
+
+                    <div class="file-upload-box">
+                        <input type="file" id="real-file-input" name="attachment" accept="image/*" hidden>
+                        <label for="real-file-input" class="custom-file-btn">
+                            <span class="btn-icon">📸</span>
+                            <span id="file-label-text">FOTOĞRAF EKLE</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="send-letter-btn"> GÖNDER 🚀</button>
+                </form>
+            </div>
+
+            <div id="step-3" class="step-box hidden">
+                <h2 class="pixel-text">GÖNDERİLDİ! ✨</h2>
+                <p>Mektubun uçtu! En kısa sürede okuyacağım. ❤️</p>
+                <button onclick="window.location.href='menu.html'" class="pixel-main-btn" style="margin-top:20px;">GERİ DÖN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1468367078510825676/VpO6jOXUGTB44XYAPujNfXytEiYTHW9-wT3oNHH13CrkSUOkS0C8kw-dFIeE_WApQzkM";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const realName = localStorage.getItem('userName') || 'Bilinmiyor';
+            document.getElementById('hidden-real-name').value = realName;
+        });
+
+        function startForm(env) {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            document.getElementById('sedef-say').innerText = `${env} zarf! Harika seçim.`;
+        }
+
+        const fileInput = document.getElementById('real-file-input');
+        fileInput.onchange = () => {
+            if (fileInput.files.length > 0) {
+                document.getElementById('file-label-text').innerText = fileInput.files[0].name;
+                document.getElementById('sedef-say').innerText = "Bu fotoğraf mektuba çok yakışacak! ✨";
+            }
+        };
+
+        const form = document.getElementById('glow-form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            document.getElementById('sedef-say').innerText = "Mektubu Discord'a uçuruyorum...";
+            
+            const realName = document.getElementById('hidden-real-name').value;
+            const alias = document.getElementById('alias-input').value;
+            const message = document.getElementById('message-input').value;
+            
+            const discordPayload = new FormData();
+            
+            const content = `**💌 YENİ MEKTUP!**\n` +
+                            `---------------------------\n` +
+                            `**👤 Gerçek Kimlik:** \`${realName}\`\n` +
+                            `**🎭 Takma Ad:** \`${alias}\`\n` +
+                            `**📝 Mesaj:** ${message}\n` +
+                            `---------------------------`;
+
+            discordPayload.append("content", content);
+            
+            if (fileInput.files.length > 0) {
+                discordPayload.append("file", fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: discordPayload
+                });
+
+                if (response.ok) {
+                    document.getElementById('step-2').classList.add('hidden');
+                    document.getElementById('step-3').classList.remove('hidden');
+                    document.getElementById('sedef-say').innerText = "Teslim edildi! ✨";
+                } else {
+                    alert("Discord bağlantısında bir sorun oluştu.");
+                }
+            } catch (error) {
+                alert("Bağlantı hatası! İnternetini veya Discord erişimini kontrol et.");
+            }
+        };
+    </script>
 </body>
 </html>
