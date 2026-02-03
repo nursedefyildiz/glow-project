@@ -531,3 +531,257 @@ img {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
+
+/* --- ÇARK SAYFASI DÜZENİ --- */
+.wheel-main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 15px;
+}
+
+.wheel-area {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Sabit Gölge (Çark dönerken yerinde çakılı kalır) */
+.wheel-static-shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 10px 10px 0px #ffb7c5; /* İstediğin tatlı pembe gölge */
+    z-index: 1;
+}
+
+/* Çark Gövdesi (Conic-gradient ile temiz dilimler) */
+.modern-wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid #333;
+    z-index: 2;
+    background: conic-gradient(
+        #ff8fa3 0deg 45deg,
+        #ffffff 45deg 90deg,
+        #ffb7c5 90deg 135deg,
+        #ffffff 135deg 180deg,
+        #ff8fa3 180deg 225deg,
+        #ffffff 225deg 270deg,
+        #ffb7c5 270deg 315deg,
+        #ffffff 315deg 360deg
+    );
+    transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+}
+
+.wheel-center-dot {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: white;
+    border: 4px solid #333;
+    border-radius: 50%;
+    z-index: 5;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -25px;
+    z-index: 10;
+    font-size: 2rem;
+    color: #333;
+    filter: drop-shadow(2px 2px 0px white);
+}
+
+/* --- ESTETİK ŞANSINI DENE BUTONU --- */
+
+.spin-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Butonu yatayda tam ortalar */
+    margin-top: 20px;
+}
+
+#spin-btn {
+    background: #ff8fa3; /* Senin imza pemben */
+    color: white;
+    border: 4px solid #333; /* Kalın pikselli çerçeve */
+    padding: 12px 24px; /* İç boşluk (kocaman olmasını engeller) */
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    
+    /* Genişlik Kontrolü */
+    width: auto;           /* İçindeki yazı kadar genişle */
+    min-width: 180px;      /* Çok da küçük kalmasın */
+    max-width: 280px;      /* Asla tüm sayfayı kaplamasın */
+    
+    /* Pikselli Gölge Efekti */
+    box-shadow: 6px 6px 0px #333; 
+    transition: all 0.1s ease;
+    text-transform: uppercase; /* Yazıları büyük yaparak daha "arcade" havası verir */
+}
+
+/* Butona basıldığında aşağı çökme hissi */
+#spin-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0px #333;
+}
+
+/* Üzerine gelince renk değişimi */
+#spin-btn:hover {
+    background: #ffb7c5;
+    color: #333;
+}
+/* Görev Linki */
+.task-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #ff8fa3;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+
+/* --- GÖNDER SAYFASI ANA TASARIM --- */
+
+.post-office-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    z-index: 10;
+    position: relative;
+    gap: 20px;
+}
+
+/* Sedef ve Balon */
+.sedef-status-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 320px;
+}
+
+.pixel-avatar {
+    width: 100px;
+    margin-top: 10px;
+    filter: drop-shadow(4px 4px 0px #ffb7c5);
+}
+
+/* Ana Kart */
+.main-card {
+    background: white;
+    border: 4px solid #333;
+    padding: 25px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 12px 12px 0px #333;
+    text-align: center;
+}
+
+/* Zarf Seçimi */
+.envelope-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.env-item {
+    border: 3px dashed #ffb7c5;
+    padding: 15px 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.env-item span { display: block; font-size: 0.7rem; font-weight: bold; margin-top: 5px; }
+.env-item:hover { background: #fff0f3; transform: scale(1.05); }
+
+/* Form Alanları */
+.input-field {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-field label {
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-field input, .input-field textarea {
+    width: 100%;
+    border: 3px solid #333;
+    padding: 12px;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: #fafafa;
+}
+
+/* ---DOSYA BUTONU --- */
+.file-upload-box {
+    margin: 20px 0;
+}
+
+.custom-file-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #fff;
+    border: 3px solid #333;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+    box-shadow: 4px 4px 0px #333;
+    transition: 0.1s;
+}
+
+.custom-file-btn:hover { background: #f0f0f0; }
+.custom-file-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px; }
+
+/* Gönder Butonu */
+.send-letter-btn {
+    width: 100%;
+    background: #ff8fa3;
+    color: white;
+    border: 4px solid #333;
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 6px 6px 0px #333;
+    margin-top: 10px;
+}
+
+.send-letter-btn:active { transform: translate(3px, 3px); box-shadow: 0px 0px 0px; }
+
+/* Arka Plan Dekorları */
+.float-item {
+    position: fixed;
+    font-size: 2rem;
+    opacity: 0.15;
+    animation: floating 4s infinite ease-in-out;
+    z-index: 1;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.hidden { display: none !important; }
