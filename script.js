@@ -33,3 +33,19 @@ function saveName() {
         window.location.href = 'anasayfa.html';
     }
 }
+
+
+// Mektup gönderiminde takılmaması için bu fonksiyonu kullan
+async function sendLetter(formElement) {
+    const realName = localStorage.getItem('userName') || 'Bilinmiyor';
+    const formData = new FormData(formElement);
+    
+    formData.append('type', 'mektup');
+    formData.append('real_identity', realName);
+
+    const response = await fetch('/api/send', {
+        method: 'POST',
+        body: formData
+    });
+    return response.ok;
+}
