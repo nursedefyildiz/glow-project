@@ -10,52 +10,38 @@ export default async function handler(req, res) {
 
   const form = new IncomingForm();
   form.parse(req, async (err, fields, files) => {
-    if (err) return res.status(500).json({ message: 'Hata oluştu' });
+    if (err) return res.status(500).json({ message: 'Form Hatası' });
 
-    // Verileri diziden çıkarıp temizliyoruz
     const type = Array.isArray(fields.type) ? fields.type[0] : fields.type;
     const alias = Array.isArray(fields.alias) ? fields.alias[0] : fields.alias;
     const real_identity = Array.isArray(fields.real_identity) ? fields.real_identity[0] : fields.real_identity;
     const message = Array.isArray(fields.message) ? fields.message[0] : fields.message;
     const category = Array.isArray(fields.category) ? fields.category[0] : fields.category;
+    const user_desc = Array.isArray(fields.user_desc) ? fields.user_desc[0] : fields.user_desc;
 
     const webhookUrl = process.env.DISCORD_WEBHOOK;
     let content = "";
 
-    // Tipine göre Discord mesajını şekillendiriyoruz
     if (type === 'login') {
-      content = `**🚪 SİTEYE GİRİŞ YAPILDI**\n` +
-                `---------------------------\n` +
-                `**👤 Gerçek Kimlik:** \`${real_identity || alias}\`\n` +
-                `**⏰ Zaman:** ${new Date().toLocaleString('tr-TR')}\n` +
-                `---------------------------`;
+      content = `**🚪 SİTEYE GİRİŞ YAPILDI**\n**👤 Kimlik:** \`${real_identity || alias}\``;
     } else if (type === 'oneri') {
-      content = `**🌟 YENİ ÖNERİ**\n` +
-                `---------------------------\n` +
-                `**📂 Kategori:** ${category}\n` +
-                `**👤 Gerçek Kimlik:** \`${real_identity}\`\n` +
-                `**🎭 Takma Ad:** \`${alias}\`\n` +
-                `**📝 Öneri:** ${message}\n` +
-                `---------------------------`;
+      content = `**🌟 YENİ ÖNERİ**\n**📂 Kategori:** ${category}\n**👤 Öneren:** ${alias}\n**📝 Eser:** ${message}\n**💬 Not:** ${user_desc || 'Yok'}`;
+    } else if (type === 'not') {
+      content = `**📌 PANODA YENİ NOT**\n**👤 Kimlik:** ${real_identity}\n**📝 Not:** ${message}`;
     } else {
-      content = `**💌 YENİ MEKTUP**\n` +
-                `---------------------------\n` +
-                `**👤 Gerçek Kimlik:** \`${real_identity}\`\n` +
-                `**🎭 Takma Ad:** \`${alias}\`\n` +
-                `**📝 Mesaj:** ${message}\n` +
-                `---------------------------`;
+      content = `**💌 YENİ MEKTUP**\n**👤 Gerçek:** ${real_identity}\n**🎭 Takma:** ${alias}\n**📝 Mesaj:** ${message}`;
     }
 
     const discordPayload = new FormData();
     discordPayload.append("content", content);
 
+    // Dosya kontrolü (Hata vermemesi için güvenli kontrol)
     if (files.attachment && files.attachment[0] && files.attachment[0].size > 0) {
-    // Sadece dosya gerçekten varsa ekle
-        const file = files.attachment[0];
-        discordPayload.append("file", fs.createReadStream(file.filepath), {
-            filename: file.originalFilename,
-         contentType: file.mimetype,
-     });
+      const file = files.attachment[0];
+      discordPayload.append("file", fs.createReadStream(file.filepath), {
+        filename: file.originalFilename,
+        contentType: file.mimetype,
+      });
     }
 
     try {
@@ -64,9 +50,9 @@ export default async function handler(req, res) {
         body: discordPayload,
         headers: discordPayload.getHeaders(),
       });
-      res.status(response.ok ? 200 : 500).json({ message: 'İletildi!' });
+      res.status(response.ok ? 200 : 500).json({ message: 'Bitti!' });
     } catch (e) {
-      res.status(500).json({ message: 'Hata!' });
+      res.status(500).json({ message: 'Discorda ulaşılamadı' });
     }
   });
 }
