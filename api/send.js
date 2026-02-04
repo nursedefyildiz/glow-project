@@ -49,12 +49,13 @@ export default async function handler(req, res) {
     const discordPayload = new FormData();
     discordPayload.append("content", content);
 
-    if (files.attachment) {
-      const file = Array.isArray(files.attachment) ? fields.attachment[0] : files.attachment;
-      discordPayload.append("file", fs.createReadStream(file.filepath), {
-        filename: file.originalFilename,
-        contentType: file.mimetype,
-      });
+    if (files.attachment && files.attachment[0] && files.attachment[0].size > 0) {
+    // Sadece dosya gerçekten varsa ekle
+        const file = files.attachment[0];
+        discordPayload.append("file", fs.createReadStream(file.filepath), {
+            filename: file.originalFilename,
+         contentType: file.mimetype,
+     });
     }
 
     try {
