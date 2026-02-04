@@ -8,25 +8,44 @@
     <style>
         /* Sekme ve İçerik Düzeni */
         .tabs { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
-        .tab-btn { padding: 8px 15px; border: 3px solid #000; background: #fff; cursor: pointer; font-family: inherit; font-weight: bold; }
-        .tab-btn.active { background: #ffde59; box-shadow: 4px 4px 0px #000; }
+        
+        .tab-btn { 
+            padding: 10px 15px; 
+            border: 3px solid #000; 
+            background: #fff; 
+            color: #000; /* Yazıların okunması için siyah yapıldı */
+            cursor: pointer; 
+            font-family: inherit; 
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tab-btn.active { 
+            background: #ffde59; 
+            box-shadow: 4px 4px 0px #000;
+            transform: translate(-2px, -2px);
+        }
         
         .content-section { border: 3px solid #000; padding: 25px; background: #fff; min-height: 250px; display: none; line-height: 1.6; }
         .content-section.active { display: block; }
 
-        /* İstediğin Madde Formatı */
-        .media-item { margin-bottom: 20px; list-style-type: "✦ "; padding-left: 5px; }
+        /* Madde İşareti Formatı */
+        .media-item { margin-bottom: 20px; position: relative; padding-left: 20px; }
+        .media-item::before { content: "✦ "; position: absolute; left: 0; color: #ff8fa3; font-weight: bold; }
         .media-title { font-weight: bold; text-transform: uppercase; display: block; }
         .media-desc { font-size: 0.9em; color: #444; display: block; margin-top: 2px; }
 
-        .add-btn-container { text-align: center; margin-top: 25px; }
+        .add-btn-container { text-align: center; margin-top: 25px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
         
         /* Modal ve Form */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; }
         .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
                  background: #fff; border: 4px solid #000; padding: 25px; z-index: 1000; width: 85%; max-width: 450px; }
         
-        .hidden { display: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body class="content-page-body">
@@ -34,27 +53,27 @@
     <div class="post-office-wrapper">
         <div class="sedef-status-area">
             <div class="speech-bubble">
-                <p id="status-text">Koleksiyonuma hoş geldin! Neye bakmak istersin? ✨</p>
+                <p id="status-text">Hoş geldin! Neye bakmak istersin? ✨</p>
             </div>
             <img src="img/glowie.png" alt="Glowie" class="pixel-avatar">
         </div>
 
         <h2 class="pixel-text" style="text-align: center;">MY RECOMMS 📚</h2>
 
-       <div class="tabs">
-    <button class="tab-btn active" onclick="openTab('film')">
-        <span>🎬</span>
-        <span>DİZİ/FİLM</span>
-    </button>
-    <button class="tab-btn" onclick="openTab('kitap')">
-        <span>📚</span>
-        <span>KİTAP</span>
-    </button>
-    <button class="tab-btn" onclick="openTab('muzik')">
-        <span>🎵</span>
-        <span>ŞARKI</span>
-    </button>
-</div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('film')">
+                <span>🎬</span>
+                <span>DİZİ/FİLM</span>
+            </button>
+            <button class="tab-btn" onclick="openTab('kitap')">
+                <span>📚</span>
+                <span>KİTAP</span>
+            </button>
+            <button class="tab-btn" onclick="openTab('muzik')">
+                <span>🎵</span>
+                <span>ŞARKI</span>
+            </button>
+        </div>
 
         <div id="film" class="content-section active">
             <div class="media-item">
@@ -77,17 +96,13 @@
         <div id="muzik" class="content-section">
             <div class="media-item">
                 <span class="media-title">ŞARKI - AFTER DARK (MR. KITTY)</span>
-                <span class="media-desc">Gece geç saatlerde kod yazarken dinlenecek en iyi synth-pop parçası.</span>
+                <span class="media-desc">Sanatçı: Mr. Kitty - Gece geç saatlerde dinlenecek en iyi parça.</span>
             </div>
         </div>
 
         <div class="add-btn-container">
             <button class="pixel-main-btn" onclick="toggleModal(true)">✨ ÖNERİ EKLE</button>
-        </div>
-         <div class="bottom-nav">
-            <button onclick="window.location.href='menu.html'" class="pixel-main-btn">
-                ⬅ MENÜYE DÖN
-            </button>
+            <button onclick="window.location.href='menu.html'" class="pixel-main-btn" style="background: #fff;">⬅ MENÜYE DÖN</button>
         </div>
     </div>
 
@@ -144,7 +159,7 @@
             document.getElementById('form-content').classList.remove('hidden');
             document.getElementById('success-content').classList.add('hidden');
             document.getElementById('suggestion-form').reset();
-            document.getElementById('status-text').innerText = "Koleksiyonuma hoş geldin! Neye bakmak istersin? ✨";
+            document.getElementById('status-text').innerText = "Hoş geldin! Neye bakmak istersin? ✨";
         }
 
         document.getElementById('suggestion-form').onsubmit = async (e) => {
@@ -153,7 +168,9 @@
             
             const realName = localStorage.getItem('userName') || 'Bilinmiyor';
             const formData = new FormData(e.target);
-            formData.append('type', 'oneri');
+            
+            // Backend ayrımı için kritik veri
+            formData.append('type', 'oneri'); 
             formData.append('real_identity', realName);
 
             try {
