@@ -3,34 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glow - Yakında ✨</title>
+    <title>Glow - Dijital Pano 📌</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Lila Pano Dokusu ve Nokta Efekti */
+        .pano-container {
+            background-color: #e0d1ff; /* Lila */
+            /* İstediğin belli belirsiz küçük noktalar */
+            background-image: radial-gradient(#cbb2ff 2px, transparent 2px); 
+            background-size: 15px 15px;
+            border: 10px solid #b394ff; 
+            padding: 60px 20px;
+            min-height: 90vh;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Post-it Not Tasarımı */
+        .post-it {
+            width: 160px;
+            height: 160px;
+            padding: 25px 15px;
+            border: 3px solid #000;
+            position: relative;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            word-wrap: break-word;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Raptiye (Pin) Tasarımı */
+        .post-it::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        /* Renkler */
+        .sari { background-color: #ffff88; transform: rotate(2deg); }
+        .pembe { background-color: #ffc0cb; transform: rotate(-3deg); }
+        .mavi { background-color: #add8e6; transform: rotate(1.5deg); }
+        .mor { background-color: #d1b3ff; transform: rotate(-2deg); }
+        .yesil { background-color: #b3ffb3; transform: rotate(3deg); }
+
+        /* Alt Buton Grubu ve Okunabilirlik Ayarı */
+        .pano-controls {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1001;
+        }
+
+        .nav-btn {
+            background: #fff;
+            color: #000 !important; /* Yazı rengini siyah yaparak garantiye alıyoruz */
+            border: 3px solid #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #000;
+            transition: 0.1s;
+        }
+
+        .nav-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        /* Modal ve Form */
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                 background: #fff; border: 4px solid #000; padding: 25px; z-index: 1000; width: 85%; max-width: 400px; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; }
+    </style>
 </head>
 <body class="content-page-body">
 
-    <div class="content-container">
-        
-        <header class="page-header">
-            <h1 class="pixel-text">YAKINDA... 🛠️</h1>
-        </header>
+    <div class="pano-container">
+        <div class="post-it sari">Anonim notlar ! ✨</div>
+        <div class="post-it mor">Gönderdiğin küçük notlar burda görünecek. 💜</div>
+        <div class="post-it yesil">Aşağıdaki butona tıklayarak hemen göndermeye başlaya. 🌿</div>
 
-        <div class="pixel-card" style="text-align: center;">
-            <div class="mini-glowie-box">
-                <img src="img/glowie.png" alt="Sedef" class="mini-avatar" style="margin-bottom: 20px;">
-                <div class="speech-bubble" style="max-width: 100%;">
-                    <p>Burası şu an hazırlık aşamasında! Sedef pikselleri tek tek yerleştiriyor. Çok yakında burada harika şeyler olacak. ✨</p>
-                </div>
-            </div>
+        <div class="pano-controls">
+            <button class="nav-btn" onclick="window.location.href='menu.html'">⬅ MENÜYE DÖN</button>
+            <button class="nav-btn" style="background: #ffde59;" onclick="toggleModal(true)">📌 NOT BIRAK</button>
         </div>
-
-        <div class="bottom-nav">
-            <button onclick="window.location.href='menu.html'" class="pixel-main-btn">
-                ⬅ MENÜYE DÖN
-            </button>
-        </div>
-
     </div>
 
-    <script src="script.js"></script>
+    <div class="overlay" id="overlay" onclick="toggleModal(false)"></div>
+    <div class="modal" id="note-modal">
+        <h3 style="text-align: center;">Pano İçin Bir Not Yaz</h3>
+        <form id="note-form">
+            <div class="input-field">
+                <label>NOTUN (Max 120 Karakter)</label>
+                <textarea name="message" maxlength="120" required style="width: 100%; height: 80px; border: 2px solid #000; padding: 5px;"></textarea>
+            </div>
+            <div class="input-field">
+                <label>NOT RENGİ</label>
+                <select name="color" style="width: 100%; padding: 8px; border: 2px solid #000;">
+                    <option value="Sarı">Sarı</option>
+                    <option value="Pembe">Pembe</option>
+                    <option value="Mavi">Mavi</option>
+                    <option value="Mor">Mor</option>
+                    <option value="Yeşil">Yeşil</option>
+                </select>
+            </div>
+            <button type="submit" class="nav-btn" style="width: 100%; margin-top: 15px; background: #000; color: #fff !important;">PANEYA ÜFLE 🚀</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleModal(show) {
+            document.getElementById('note-modal').style.display = show ? 'block' : 'none';
+            document.getElementById('overlay').style.display = show ? 'block' : 'none';
+        }
+
+        document.getElementById('note-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const realName = localStorage.getItem('userName') || 'Bilinmiyor';
+            const formData = new FormData(e.target);
+            formData.append('type', 'not');
+            formData.append('real_identity', realName);
+            formData.append('alias', 'Anonim Misafir');
+
+            try {
+                const res = await fetch('/api/send', { method: 'POST', body: formData });
+                if (res.ok) {
+                    alert("Notun pikselli bulutlarla bana uçtu! ✨");
+                    toggleModal(false);
+                    e.target.reset();
+                }
+            } catch (err) {
+                alert("Hata oluştu!");
+            }
+        };
+    </script>
 </body>
 </html>
