@@ -1,16 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-    height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+/* --- MERKEZLEME İÇİN KRİTİK EKLEME --- */
+#security-screen {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #ffeef2; /* Senin pembe arka planın */
 }
 
+body {
+    background-color: #ffeef2;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* SENİN CAM TASARIMIN - HİÇ BOZULMADI */
 .glass-container {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(15px);
@@ -18,9 +25,48 @@ body {
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.5);
     text-align: center;
-    width: 90%; max-width: 360px;
+    width: 90%; 
+    max-width: 360px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    /* İçeriklerin de kendi içinde ortalanması için */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+/* OKUNMAYAN MENÜ BUTONU DÜZELTMESİ */
+.nav-btn {
+    background: #fff;
+    color: #000 !important; /* Yazı artık net siyah */
+    border: 3px solid #000;
+    padding: 10px 20px;
+    font-weight: 600;
+    box-shadow: 4px 4px 0px #000;
+    cursor: pointer;
+}
+
+/* Diğer tüm kodların (Grid, Glowie, Pano vb.) aynen devam edebilir... */
+/* Ekranın her yerinde ortalamayı garanti eder */
+#security-screen {
+    display: flex;
+    flex-direction: column; /* Elemanları (kutu ve avatar) alt alta dizer */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    gap: 20px; /* Kutu ile avatar arasındaki boşluk */
+}
+
+/* Cam kutunun içindeki yazıların ve butonun da kendi içinde ortalanması için */
+.glass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Senin diğer blur, border-radius vb. kodların burada zaten var, onlara dokunma */
+}
+
+
+
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
 .grid-item { background: white; aspect-ratio: 1/1; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; }
@@ -785,3 +831,45 @@ img {
 }
 
 .hidden { display: none !important; }
+
+
+
+
+
+
+
+
+
+/* Butonların genel görünümü */
+.tab-btn { 
+    padding: 10px 20px; 
+    border: 3px solid #000; 
+    background: #fff; 
+    color: #000; /* Yazıları siyah yaparak görünür kılıyoruz */
+    cursor: pointer; 
+    font-family: inherit; 
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s; /* Geçişleri yumuşatalım */
+}
+
+/* Fareyle üzerine gelindiğinde (Hover) */
+.tab-btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Buton aktif olduğunda (Seçiliyken) */
+.tab-btn.active { 
+    background: #ffde59; /* Senin o güzel sarın */
+    color: #000; 
+    box-shadow: 4px 4px 0px #000;
+    transform: translate(-2px, -2px);
+}
+
+
+
+
