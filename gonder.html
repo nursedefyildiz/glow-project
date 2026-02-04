@@ -90,31 +90,34 @@
 
         const form = document.getElementById('glow-form');
         form.onsubmit = async (e) => {
-            e.preventDefault();
-            document.getElementById('sedef-say').innerText = "Mektubu güvenli kanalla uçuruyorum...";
-            
-            const formData = new FormData(form);
+    e.preventDefault();
+    document.getElementById('sedef-say').innerText = "Mektubu güvenli kanalla uçuruyorum... ✨";
+    
+    const realName = localStorage.getItem('userName') || 'Bilinmiyor';
+    const formData = new FormData(form);
 
-            try {
-                // Veriyi doğrudan Discord'a değil, Vercel üzerinde oluşturduğumuz /api/send yoluna gönderiyoruz.
-                // Bu sayede VPN engeli aşılır ve linkin gizli kalır.
-                const response = await fetch('/api/send', {
-                    method: 'POST',
-                    body: formData
-                });
+    // KRİTİK EKSİK: Backend'in bunun bir mektup olduğunu anlaması için:
+    formData.append('type', 'mektup'); 
+    formData.append('real_identity', realName);
 
-                if (response.ok) {
-                    document.getElementById('step-2').classList.add('hidden');
-                    document.getElementById('step-3').classList.remove('hidden');
-                    document.getElementById('sedef-say').innerText = "Teslim edildi! ✨";
-                } else {
-                    const errorData = await response.json();
-                    alert("Hata: " + (errorData.message || "Bir sorun oluştu."));
-                }
-            } catch (error) {
-                alert("Bağlantı hatası! Sunucu şu an meşgul olabilir.");
-            }
-        };
+    try {
+        const response = await fetch('/api/send', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            document.getElementById('sedef-say').innerText = "Teslim edildi! ✨";
+        } else {
+            const errorData = await response.json();
+            alert("Hata: " + errorData.message);
+        }
+    } catch (error) {
+        alert("Bağlantı hatası!");
+    }
+};
     </script>
 </body>
 </html>
