@@ -1,54 +1,37 @@
-// api/send.js
 import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import FormData from 'form-data';
 import fetch from 'node-fetch';
 
-export const config = {
-  api: {
-    bodyParser: false, // Dosya yüklemeyi (resim) desteklemek için kapatıyoruz
-  },
-};
+export const config = { api: { bodyParser: false } };
 
 export default async function handler(req, res) {
-  // Sadece POST isteklerine izin veriyoruz
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Sadece POST istekleri kabul edilir.' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ message: 'Method Not Allowed' });
 
   const form = new IncomingForm();
-
   form.parse(req, async (err, fields, files) => {
-    if (err) {
-      return res.status(500).json({ message: 'Form ayrıştırma hatası oluştu.' });
-    }
+    if (err) return res.status(500).json({ message: 'Hata oluştu' });
 
-    // HTML formundan gelen verileri alıyoruz
-    // Formidable bazı sürümlerde verileri dizi olarak döndürebilir, bu yüzden [0] kontrolü ekliyoruz
+    const type = Array.isArray(fields.type) ? fields.type[0] : fields.type;
     const alias = Array.isArray(fields.alias) ? fields.alias[0] : fields.alias;
-    const real_identity = Array.isArray(fields.real_identity) ? fields.real_identity[0] : fields.real_identity;
     const message = Array.isArray(fields.message) ? fields.message[0] : fields.message;
-    
-    // Vercel panelinden ekleyeceğin gizli Discord linki
-    const webhookUrl = process.env.DISCORD_WEBHOOK;
+    const category = Array.isArray(fields.category) ? fields.category[0] : fields.category;
 
-    if (!webhookUrl) {
-      return res.status(500).json({ message: 'Discord Webhook URL bulunamadı. Vercel ayarlarını kontrol et.' });
+    const webhookUrl = process.env.DISCORD_WEBHOOK;
+    let content = "";
+
+    // Gelen tipine göre mesajı süslüyoruz
+    if (type === 'login') {
+      content = `**🚪 SİTEYE GİRİŞ YAPILDI**\n\`${alias}\` şu an menü sayfasında! ✨`;
+    } else if (type === 'oneri') {
+      content = `**🌟 YENİ ÖNERİ**\n**Kategori:** ${category}\n**Eser:** ${message}\n**Öneren:** ${alias}`;
+    } else {
+      content = `**💌 YENİ MEKTUP**\n**Kimden:** ${alias}\n**Mesaj:** ${message}`;
     }
 
     const discordPayload = new FormData();
-    
-    // Discord mesaj içeriği
-    const content = `**💌 YENİ MEKTUP (VPN'siz Sistem)**\n` +
-                    `---------------------------\n` +
-                    `**👤 Gerçek Kimlik:** \`${real_identity}\`\n` +
-                    `**🎭 Takma Ad:** \`${alias}\`\n` +
-                    `**📝 Mesaj:** ${message}\n` +
-                    `---------------------------`;
-
     discordPayload.append("content", content);
 
-    // Eğer fotoğraf yüklendiyse pakete ekle
     if (files.attachment) {
       const file = Array.isArray(files.attachment) ? files.attachment[0] : files.attachment;
       discordPayload.append("file", fs.createReadStream(file.filepath), {
@@ -63,15 +46,9 @@ export default async function handler(req, res) {
         body: discordPayload,
         headers: discordPayload.getHeaders(),
       });
-
-      if (response.ok) {
-        return res.status(200).json({ message: "Başarıyla Discord'a iletildi!" });
-      } else {
-        const errorText = await response.text();
-        return res.status(500).json({ message: "Discord hatası: " + errorText });
-      }
-    } catch (error) {
-      return res.status(500).json({ message: "Sunucu hatası: " + error.message });
+      res.status(response.ok ? 200 : 500).json({ message: 'İşlem tamam!' });
+    } catch (e) {
+      res.status(500).json({ message: 'Hata!' });
     }
   });
 }
