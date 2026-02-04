@@ -58,5 +58,46 @@
     </div>
 
     <script src="script.js"></script>
+
+
+
+
+    <script>
+    window.onload = function() {
+        // localStorage'dan ismi alıyoruz
+        const user = localStorage.getItem('userName') || 'Gizli Misafir';
+        
+        // Bu bildirim her sayfa yenilendiğinde değil, sadece sekme ilk açıldığında gitsin
+        if (!sessionStorage.getItem('notified')) {
+            
+            const formData = new FormData();
+            formData.append('type', 'login'); // Backend'e bunun bir "giriş" olduğunu söylüyoruz
+            formData.append('alias', user);   // Kullanıcının ismini gönderiyoruz
+
+            fetch('/api/send', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if(response.ok) {
+                    sessionStorage.setItem('notified', 'true'); // Tekrar bildirim gitmesini engelle
+                }
+            })
+            .catch(err => console.error("Giriş bildirimi hatası:", err));
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
 </body>
-</html>
+</html> 
+
+
