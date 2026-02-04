@@ -3,34 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glow - Yakında ✨</title>
+    <title>Glow - Medya Odası 🌟</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sekme ve İçerik Düzeni */
+        .tabs { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
+        .tab-btn { padding: 8px 15px; border: 3px solid #000; background: #fff; cursor: pointer; font-family: inherit; font-weight: bold; }
+        .tab-btn.active { background: #ffde59; box-shadow: 4px 4px 0px #000; }
+        
+        .content-section { border: 3px solid #000; padding: 25px; background: #fff; min-height: 250px; display: none; line-height: 1.6; }
+        .content-section.active { display: block; }
+
+        /* İstediğin Madde Formatı */
+        .media-item { margin-bottom: 20px; list-style-type: "✦ "; padding-left: 5px; }
+        .media-title { font-weight: bold; text-transform: uppercase; display: block; }
+        .media-desc { font-size: 0.9em; color: #444; display: block; margin-top: 2px; }
+
+        .add-btn-container { text-align: center; margin-top: 25px; }
+        
+        /* Modal ve Form */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                 background: #fff; border: 4px solid #000; padding: 25px; z-index: 1000; width: 85%; max-width: 450px; }
+        
+        .hidden { display: none; }
+    </style>
 </head>
 <body class="content-page-body">
 
-    <div class="content-container">
-        
-        <header class="page-header">
-            <h1 class="pixel-text">YAKINDA... 🛠️</h1>
-        </header>
+    <div class="post-office-wrapper">
+        <div class="sedef-status-area">
+            <div class="speech-bubble">
+                <p id="status-text">Koleksiyonuma hoş geldin! Neye bakmak istersin? ✨</p>
+            </div>
+            <img src="img/glowie.png" alt="Glowie" class="pixel-avatar">
+        </div>
 
-        <div class="pixel-card" style="text-align: center;">
-            <div class="mini-glowie-box">
-                <img src="img/glowie.png" alt="Sedef" class="mini-avatar" style="margin-bottom: 20px;">
-                <div class="speech-bubble" style="max-width: 100%;">
-                    <p>Burası şu an hazırlık aşamasında! Sedef pikselleri tek tek yerleştiriyor. Çok yakında burada harika şeyler olacak. ✨</p>
-                </div>
+        <h2 class="pixel-text" style="text-align: center;">MY RECOMMS 📚</h2>
+
+       <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('film')">
+        <span>🎬</span>
+        <span>DİZİ/FİLM</span>
+    </button>
+    <button class="tab-btn" onclick="openTab('kitap')">
+        <span>📚</span>
+        <span>KİTAP</span>
+    </button>
+    <button class="tab-btn" onclick="openTab('muzik')">
+        <span>🎵</span>
+        <span>ŞARKI</span>
+    </button>
+</div>
+
+        <div id="film" class="content-section active">
+            <div class="media-item">
+                <span class="media-title">DİZİ - BREAKING BAD</span>
+                <span class="media-desc">Bir kimya öğretmeninin hayatta kalma mücadelesi. Mutlaka izlemelisin.</span>
+            </div>
+            <div class="media-item">
+                <span class="media-title">FİLM - INTERSTELLAR</span>
+                <span class="media-desc">Zaman, uzay ve sevginin bilimle muazzam buluşması.</span>
             </div>
         </div>
 
-        <div class="bottom-nav">
+        <div id="kitap" class="content-section">
+            <div class="media-item">
+                <span class="media-title">KİTAP - 1984 (GEORGE ORWELL)</span>
+                <span class="media-desc">Büyük Birader seni izliyor... Düşünce özgürlüğüne dair sarsıcı bir roman.</span>
+            </div>
+        </div>
+
+        <div id="muzik" class="content-section">
+            <div class="media-item">
+                <span class="media-title">ŞARKI - AFTER DARK (MR. KITTY)</span>
+                <span class="media-desc">Gece geç saatlerde kod yazarken dinlenecek en iyi synth-pop parçası.</span>
+            </div>
+        </div>
+
+        <div class="add-btn-container">
+            <button class="pixel-main-btn" onclick="toggleModal(true)">✨ ÖNERİ EKLE</button>
+        </div>
+         <div class="bottom-nav">
             <button onclick="window.location.href='menu.html'" class="pixel-main-btn">
                 ⬅ MENÜYE DÖN
             </button>
         </div>
-
     </div>
 
-    <script src="script.js"></script>
+    <div class="overlay" id="overlay" onclick="toggleModal(false)"></div>
+    <div class="modal" id="suggestion-modal">
+        <div id="form-content">
+            <h3 class="pixel-text">Bana Ne Önerirsin?</h3>
+            <form id="suggestion-form">
+                <div class="input-field">
+                    <label>KATEGORİ</label>
+                    <select name="category" required style="width: 100%; padding: 8px; border: 2px solid #000; font-family: inherit;">
+                        <option value="🎬 Film/Dizi">🎬 Film/Dizi</option>
+                        <option value="📚 Kitap">📚 Kitap</option>
+                        <option value="🎵 Şarkı">🎵 Şarkı</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label>ÖNERİ ADI / SANATÇI</label>
+                    <input type="text" name="message" placeholder="Eserin adı nedir?" required>
+                </div>
+                <div class="input-field">
+                    <label>TAKMA ADIN (Görünmesini İstiyorsan)</label>
+                    <input type="text" name="alias" placeholder="İsmin veya takma adın...">
+                </div>
+                <div class="input-field">
+                    <label>KÜÇÜK BİR AÇIKLAMA</label>
+                    <textarea name="user_desc" placeholder="Neden bunu öneriyorsun?" style="width: 100%; height: 60px; border: 2px solid #000; font-family: inherit; padding: 5px;"></textarea>
+                </div>
+                <button type="submit" class="send-letter-btn" style="width: 100%; margin-top: 10px;">GÖNDER 🚀</button>
+            </form>
+        </div>
+
+        <div id="success-content" class="hidden" style="text-align: center;">
+            <p class="pixel-text">Önerini aldım! En kısa sürede inceleyip siteye ekleyeceğim. Teşekkürler! ✨</p>
+            <button class="pixel-main-btn" onclick="resetPage()" style="margin-top: 15px;">GERİ DÖN</button>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleModal(show) {
+            document.getElementById('suggestion-modal').style.display = show ? 'block' : 'none';
+            document.getElementById('overlay').style.display = show ? 'block' : 'none';
+        }
+
+        function resetPage() {
+            toggleModal(false);
+            document.getElementById('form-content').classList.remove('hidden');
+            document.getElementById('success-content').classList.add('hidden');
+            document.getElementById('suggestion-form').reset();
+            document.getElementById('status-text').innerText = "Koleksiyonuma hoş geldin! Neye bakmak istersin? ✨";
+        }
+
+        document.getElementById('suggestion-form').onsubmit = async (e) => {
+            e.preventDefault();
+            document.getElementById('status-text').innerText = "Önerini not defterime yazıyorum... 📝";
+            
+            const realName = localStorage.getItem('userName') || 'Bilinmiyor';
+            const formData = new FormData(e.target);
+            formData.append('type', 'oneri');
+            formData.append('real_identity', realName);
+
+            try {
+                const response = await fetch('/api/send', { method: 'POST', body: formData });
+                if (response.ok) {
+                    document.getElementById('form-content').classList.add('hidden');
+                    document.getElementById('success-content').classList.remove('hidden');
+                    document.getElementById('status-text').innerText = "Bu öneri harika görünüyor! ✨";
+                }
+            } catch (error) {
+                alert("Bir hata oluştu.");
+            }
+        };
+    </script>
 </body>
 </html>
